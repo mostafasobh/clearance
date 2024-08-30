@@ -27,7 +27,7 @@ module Clearance
       session_params = params.require(:session)
 
       Clearance.configuration.user_model.authenticate(
-        session_params[:email], session_params[:password]
+        session_params[:email], session_params[:password], session_params[:phone]
       )
     end
 

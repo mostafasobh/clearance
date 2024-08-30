@@ -112,8 +112,8 @@ module Clearance
 
     # @api private
     module ClassMethods
-      def authenticate(email, password)
-        if user = find_by_normalized_email(email)
+      def authenticate(email, password, phone)
+        if user =  phone ? find_by_normalized_phone(phone) : find_by_normalized_email(email)
           if password.present? && user.authenticated?(password)
             user
           end
@@ -128,6 +128,14 @@ module Clearance
 
       def normalize_email(email)
         email.to_s.downcase.gsub(/\s+/, "")
+      end
+
+      def find_by_normalized_phone(phone)
+        find_by(phone: normalize_phone(phone))
+      end
+
+      def normalize_phone(phone)
+        phone.to_s.downcase.gsub(/\s+/, "")
       end
 
       private
